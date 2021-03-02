@@ -1,15 +1,20 @@
 package calculator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Converter {
 
     private final ExceptionHandler exceptionHandler;
+    private Map<String, Integer> variablesMap;
 
-    public Converter(ExceptionHandler exceptionHandler) {
+    public Converter(ExceptionHandler exceptionHandler, Map<String, Integer> variablesMap) {
         this.exceptionHandler = exceptionHandler;
+        this.variablesMap = variablesMap;
     }
 
     // gets operator from string (eg. ----23 will get +)
@@ -32,24 +37,16 @@ public class Converter {
     }
 
     // inserts string into array with separated numbers (eg. ---34 +++ 12 to {-34, 12})
-    public String[] changeEquationToArray(String string) {
-        Pattern pattern = Pattern.compile("[+\\- ]*[0-9]+\\b");
+    public List<String> changeEquationToArray(String string) {
+        Pattern pattern = Pattern.compile("[+\\- ]*[0-9]+\\b|[+\\- ]*[a-zA-Z]+\\b");
         Matcher matcher = pattern.matcher(string);
         int count = 0;
 
-        if (!isInputValid(string)) {
-            exceptionHandler.throwInvalidExpression();
-        }
+//        if (InputValidator.) {
+//            exceptionHandler.throwInvalidExpression();
+//        }
 
-        while (matcher.find()) { // count all numbers in string
-            if (count > 0 && !matcher.group().matches("\\s*[+\\-]+\\s*[0-9]+")) { // if there is no operator between numbers
-                exceptionHandler.throwInvalidExpression();
-            }
-            count++;
-        }
-        matcher.reset();
-        String[] outputArr = new String[count];
-        count = 0;
+        List<String> outputArr = new ArrayList<>();
 
         while (matcher.find()) {
             String stringWithoutSpaces = matcher.group().replaceAll("\\s*", ""); // delete all space from " ----+ 23"
@@ -58,27 +55,31 @@ public class Converter {
 
             // insert number to an array with proper operator -/+
             if (operator.equals('+')) {
-                outputArr[count] = stringWithoutOperator; // positive num
+                outputArr.add(stringWithoutOperator); // positive num
             } else if (operator.equals('-')) {
-
-                outputArr[count] = "-" + stringWithoutOperator; // add minus
+                outputArr.add("-" + stringWithoutOperator); // add minus
             }
-
-            count++;
         }
         return outputArr;
     }
 
-    private boolean isInputValid(String string) {
-        Matcher matcherCheckIfLetters = Pattern.compile("[!-'*,/:-~]").matcher(string);
-        boolean isValid = true;
+    public List<String> changeVariablesToNumsInList(List<String> list) {
+        List<String> changedList = new ArrayList<>();
 
-        if (matcherCheckIfLetters.find()) { // check if there are letters or other non numeric
-            isValid = false;
-        } else if (string.endsWith(" ") || string.endsWith("+") || string.endsWith("-")) { // does input ends with -/+/space
-            isValid = false;
+        for (String var : list) {
+            for (String varFromMap : variablesMap.keySet()) {
+                if (var.replaceAll("-", "").equals(varFromMap)) {
+                    String value = Integer.toString(variablesMap.get(varFromMap));
+
+                    if (var.contains("-")) {
+                        list.set(list.indexOf(var), "-" + value);
+                    } else {
+                        list.set(list.indexOf(var), value);
+                    }
+                }
+            }
         }
-        return isValid;
+        return list;
     }
 
 }
