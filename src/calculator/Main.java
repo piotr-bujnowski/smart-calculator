@@ -64,7 +64,7 @@ public class Main {
                             }
 
                         } else if (inputValidator.isEquationFormat(input)) {
-                            ArrayList<String> inputArr = new ArrayList<>(converter.changeEquationToArray(input));
+                            ArrayList<String> inputArr = new ArrayList<>(converter.changeEquationIntoArray(input));
                             int eq = 0;
 
                             converter.changeVariablesToNumsInList(inputArr);

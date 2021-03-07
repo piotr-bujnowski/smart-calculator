@@ -29,13 +29,23 @@ public class InputValidator {
 
         while (matcherEquation.find()) {
             //check if there is no operator between numbers
-            if (count > 0 && !matcherEquation.group().contains("+") && !matcherEquation.group().contains("-")) {
+            if (count > 0 && !isContainingOperator(matcherEquation.group())) {
                 isEq = false;
                 this.exceptionHandler.throwInvalidExpression();
             }
             count++;
         }
         return isEq;
+    }
+
+    private boolean isContainingOperator(String input) {
+        boolean containsOperator = false;
+
+        if (input.contains("+") || input.contains("-")
+        || input.contains("*") || input.contains("/"))
+            containsOperator = true;
+
+        return containsOperator;
     }
 
     private boolean isEndingWrong(String input) {
