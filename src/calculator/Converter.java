@@ -38,7 +38,11 @@ public class Converter {
 
     // inserts string into array with separated numbers (eg. ---34 +++ 12 to {-34, 12})
     public List<String> changeEquationIntoArray(String string) {
-        Pattern pattern = Pattern.compile("[+\\-*/ ]*[0-9]+\\b|[+\\-*/ ]*[a-zA-Z]+\\b");
+        String regEx = "\\(?[+\\- ]*[0-9]+ *\\)?|" +
+                "\\(?[+\\- ]*[a-zA-Z]+ *\\)?|" +
+                "\\(?[*/ ]+[0-9]+ *\\)?|" +
+                "\\(?[*/ ]+[a-zA-Z]+ *\\)?";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(string);
         int count = 0;
 
@@ -55,6 +59,15 @@ public class Converter {
                     outputArr.add(stringWithoutOperator); // positive num
                 } else if (operator.equals('-')) {
                     outputArr.add("-" + stringWithoutOperator); // add minus
+                }
+            } else {
+                String numWithProperOperator = matcher.group().replaceAll("\\s*", "");
+                if (numWithProperOperator.contains("*")) {
+                    numWithProperOperator = numWithProperOperator.replaceAll("\\*+", "");
+                    outputArr.add("*" + numWithProperOperator);
+                } else if (numWithProperOperator.contains("/")) {
+                    numWithProperOperator = numWithProperOperator.replaceAll("/", "");
+                    outputArr.add("/" + numWithProperOperator);
                 }
             }
         }
