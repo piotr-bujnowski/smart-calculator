@@ -12,33 +12,45 @@ public class InputValidator {
         this.exceptionHandler = exceptionHandler;
     }
 
-    public boolean isVariableSetUpFormat(String input) { // check if input is in variable fromat eg. n=10 or n = 10
+    public boolean isVariableSetUpFormat(String input) { // check if input is in variable format eg. n=10 or n = 10
         return input.matches("[\\p{all}a-zA-Z0-9]+ *= *[\\p{all}a-zA-Z0-9]+ *");
     }
 
     public boolean isEquationFormat(String input) { // check if input is in good format
         boolean isEq = true;
-        String regEx = "[+\\- ]*[0-9]+\\b|[+\\- ]*[a-zA-Z]+\\b";
+        String regEx = "\\b[+\\- ]*[0-9]+\\b|" +
+                "\\b[+\\- ]*[a-zA-Z]+\\b|" +
+                "[*/]+[0-9]+\\b|" +
+                "[*/]+[a-zA-Z]+\\b";
+
         Matcher matcherEquation = Pattern.compile(regEx).matcher(input);
         int count = 0;
 
         if (isEndingWrong(input)) {
+            System.out.println("ends worin");
             isEq = false;
             this.exceptionHandler.throwInvalidExpression();
         }
 
         while (matcherEquation.find()) {
             //check if there is no operator between numbers
+            System.out.println(matcherEquation.group());
             if (count > 0 && !isContainingOperator(matcherEquation.group())) {
+                System.out.println("op");
                 isEq = false;
-                this.exceptionHandler.throwInvalidExpression();
+            } else if (matcherEquation.group().contains("*") && matcherEquation.group().contains("/")) {
+                System.out.println("cont");
+                isEq = false;
             }
+
+            if (!isEq) exceptionHandler.throwInvalidExpression();
+
             count++;
         }
         return isEq;
     }
 
-    private boolean isContainingOperator(String input) {
+    public static boolean isContainingOperator(String input) {
         boolean containsOperator = false;
 
         if (input.contains("+") || input.contains("-")

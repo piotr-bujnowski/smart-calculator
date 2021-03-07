@@ -38,22 +38,24 @@ public class Converter {
 
     // inserts string into array with separated numbers (eg. ---34 +++ 12 to {-34, 12})
     public List<String> changeEquationIntoArray(String string) {
-        Pattern pattern = Pattern.compile("[+\\- ]*[0-9]+\\b|[+\\- ]*[a-zA-Z]+\\b");
-        Matcher matcher = pattern.matcher(string);   //34 * (43 +++ 54) / 4 ----- 54 -> 34, * (43, +++54), / 4
+        Pattern pattern = Pattern.compile("[+\\-*/ ]*[0-9]+\\b|[+\\-*/ ]*[a-zA-Z]+\\b");
+        Matcher matcher = pattern.matcher(string);
         int count = 0;
 
         List<String> outputArr = new ArrayList<>();
 
         while (matcher.find()) {
-            String stringWithoutSpaces = matcher.group().replaceAll("\\s*", ""); // delete all space from " ----+ 23"
-            Character operator = getOperator(stringWithoutSpaces); // check what operator the number have
-            String stringWithoutOperator = stringWithoutSpaces.replaceAll("[-+]*", "");
+            if (matcher.group().contains("-") || matcher.group().contains("+")) {
+                String stringWithoutSpaces = matcher.group().replaceAll("\\s*", ""); // delete all space from " ----+ 23"
+                Character operator = getOperator(stringWithoutSpaces); // check what operator the number have
+                String stringWithoutOperator = stringWithoutSpaces.replaceAll("[-+]*", "");
 
-            // insert number to an array with proper operator -/+
-            if (operator.equals('+')) {
-                outputArr.add(stringWithoutOperator); // positive num
-            } else if (operator.equals('-')) {
-                outputArr.add("-" + stringWithoutOperator); // add minus
+                // insert number to an array with proper operator -/+
+                if (operator.equals('+')) {
+                    outputArr.add(stringWithoutOperator); // positive num
+                } else if (operator.equals('-')) {
+                    outputArr.add("-" + stringWithoutOperator); // add minus
+                }
             }
         }
         return outputArr;
