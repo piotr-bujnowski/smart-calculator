@@ -18,10 +18,10 @@ public class InputValidator {
 
     public boolean isEquationFormat(String input) { // check if input is in good format
         boolean isEq = true;
-        String regEx = "\\b[+\\- ]*[0-9]+\\b|" +
-                "\\b[+\\- ]*[a-zA-Z]+\\b|" +
-                "[*/]+[0-9]+\\b|" +
-                "[*/]+[a-zA-Z]+\\b";
+        String regEx = "\\(?[+\\- ]*[0-9]+ *\\)?|" +
+                "\\(?[+\\- ]*[a-zA-Z]+ *\\)?|" +
+                "\\(?[*/ ]+[0-9]+ *\\)?|" +
+                "\\(?[*/ ]+[a-zA-Z]+ *\\)?";
 
         Matcher matcherEquation = Pattern.compile(regEx).matcher(input);
         int count = 0;

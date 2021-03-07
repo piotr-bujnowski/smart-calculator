@@ -38,7 +38,7 @@ public class Main {
                         break;
                     }
 
-                    try {
+//                    try {
 
                         if (inputValidator.isVariableSetUpFormat(input)) {
                             String[] variable = input.replaceAll("\\s*", "").split("=");
@@ -64,32 +64,32 @@ public class Main {
                             }
 
                         } else if (inputValidator.isEquationFormat(input)) {
-                            ArrayList<String> inputArr = new ArrayList<>(converter.changeEquationIntoArray(input));
-                            int eq = 0;
-
-                            converter.changeVariablesToNumsInList(inputArr);
-
-                            if (inputArr.size() == 1) {
-                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
-                                    System.out.println(variablesMap.get(input));
-                                } else if (!variablesMap.containsKey(input)) {
-                                    System.out.println("Unknown variable");
-                                } else {
-                                    System.out.println(inputArr.get(0));
-                                }
-                                break;
-                            }
-
-                            for (String num : inputArr) {
-                                eq += Integer.parseInt(num);
-                            }
-
-                            System.out.println(eq);
+//                            ArrayList<String> inputArr = new ArrayList<>(converter.changeEquationIntoArray(input));
+//                            int eq = 0;
+//
+//                            converter.changeVariablesToNumsInList(inputArr);
+//
+//                            if (inputArr.size() == 1) {
+//                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
+//                                    System.out.println(variablesMap.get(input));
+//                                } else if (!variablesMap.containsKey(input)) {
+//                                    System.out.println("Unknown variable");
+//                                } else {
+//                                    System.out.println(inputArr.get(0));
+//                                }
+//                                break;
+//                            }
+//
+//                            for (String num : inputArr) {
+//                                eq += Integer.parseInt(num);
+//                            }
+//
+//                            System.out.println(eq);
                         }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid expression");
-                    }
-                    break;
+//                    } catch (NumberFormatException e) {
+//                        System.out.println("Invalid expression");
+//                    }
+//                    break;
             }
 
         } while (!exit);
