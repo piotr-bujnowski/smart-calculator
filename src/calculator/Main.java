@@ -11,6 +11,7 @@ public class Main {
         InputValidator inputValidator = new InputValidator(new ExceptionHandler());
         Map<String, Integer> variablesMap = new HashMap<>();
         Converter converter = new Converter(new ExceptionHandler(), variablesMap);
+        Calculator calculator = new Calculator();
         Scanner scanner = new Scanner(System.in);
 
         boolean exit = false;
@@ -64,28 +65,34 @@ public class Main {
                             String[] inputArr = input.replaceAll("\\s*", "").split("");
                             int eq = 0;
 
-                            List<String> newArr = new ArrayList<>();
-                            ArrayList<String> iiiii = new ArrayList<>(converter.changeEquationIntoArray(input));
-                            System.out.println(iiiii);
+                            List<String> infixNotation = new ArrayList<>(converter.changeEquationIntoArray(input));
+                            List<String> postfixNotation =  new ArrayList<>(converter.convertToPostfixNotation(infixNotation.toString()));
 
-//                            converter.changeVariablesToNumsInList(inputArr);
-//
-//                            if (inputArr.size() == 1) {
-//                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
-//                                    System.out.println(variablesMap.get(input));
-//                                } else if (!variablesMap.containsKey(input)) {
-//                                    System.out.println("Unknown variable this");
-//                                } else {
-//                                    System.out.println(inputArr.get(0));
-//                                }
-//                                break;
-//                            }
+                            System.out.println(infixNotation);
 
-//                            for (String num : inputArr) {
-//                                eq += Integer.parseInt(num);
-//                            }
+                            List<String> converted = converter.changeVariablesToNumsInList(infixNotation);
+                            System.out.println(converted + "converted");
 
-                            System.out.println(eq);
+                            if (infixNotation.size() == 1) {
+                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
+                                    System.out.println(variablesMap.get(input));
+                                } else if (!variablesMap.containsKey(input)) {
+                                    System.out.println("Unknown variable this");
+                                } else {
+                                    System.out.println(infixNotation.get(0));
+                                }
+                                break;
+                            }
+
+
+                            for (String s : postfixNotation) {
+                                System.out.print(s + " ");
+                            }
+                            System.out.println();
+                            equation = calculator.calculatePostfixExp(converted);
+                            System.out.println(equation);
+
+
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid expression");
