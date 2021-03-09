@@ -1,9 +1,6 @@
 package calculator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,32 +56,35 @@ public class Main {
                                 } else if (variable[0].matches("(?i)[a-z]+ *") && variable[1].matches("[0-9]+ *")) {
                                     variablesMap.put(variable[0], Integer.parseInt(variable[1]));
                                 } else {
-                                    System.out.println("Unknown variable");
+                                    System.out.println("Unknown variable this");
                                 }
                             }
 
                         } else if (inputValidator.isEquationFormat(input)) {
-                            ArrayList<String> inputArr = new ArrayList<>(converter.changeEquationIntoArray(input));
+                            String[] inputArr = input.replaceAll("\\s*", "").split("");
                             int eq = 0;
 
-                            converter.changeVariablesToNumsInList(inputArr);
+                            List<String> newArr = new ArrayList<>();
+                            ArrayList<String> iiiii = new ArrayList<>(converter.changeEquationIntoArray(input));
+                            System.out.println(iiiii);
 
-                            if (inputArr.size() == 1) {
-                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
-                                    System.out.println(variablesMap.get(input));
-                                } else if (!variablesMap.containsKey(input)) {
-                                    System.out.println("Unknown variable this");
-                                } else {
-                                    System.out.println(inputArr.get(0));
-                                }
-                                break;
-                            }
+//                            converter.changeVariablesToNumsInList(inputArr);
+//
+//                            if (inputArr.size() == 1) {
+//                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
+//                                    System.out.println(variablesMap.get(input));
+//                                } else if (!variablesMap.containsKey(input)) {
+//                                    System.out.println("Unknown variable this");
+//                                } else {
+//                                    System.out.println(inputArr.get(0));
+//                                }
+//                                break;
+//                            }
 
 //                            for (String num : inputArr) {
 //                                eq += Integer.parseInt(num);
 //                            }
 
-                            System.out.println(inputArr);
                             System.out.println(eq);
                         }
                     } catch (NumberFormatException e) {

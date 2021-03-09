@@ -18,36 +18,41 @@ public class InputValidator {
 
     public boolean isEquationFormat(String input) { // check if input is in good format
         boolean isEq = true;
-        String regEx = "\\(?[+\\- ]*[0-9]+ *\\)?|" +
-                "\\(?[+\\- ]*[a-zA-Z]+ *\\)?|" +
-                "\\(?[*/ ]+[0-9]+ *\\)?|" +
-                "\\(?[*/ ]+[a-zA-Z]+ *\\)?";
+        String regEx = "[+\\-*/ ]*\\(*?[+\\-*/ ]*[0-9]+ *\\)*|" +
+                "[+\\-*/ ]*\\(*?[+\\-*/ ]*[a-zA-Z]+ *\\)*";
+
+//                "\\(?[*/ ]+[0-9]+ *\\)?|" +
+//                "\\(?[*/ ]+[a-zA-Z]+ *\\)?";
 
         Matcher matcherEquation = Pattern.compile(regEx).matcher(input);
         int count = 0;
 
         if (isEndingWrong(input)) {
-            System.out.println("ends worin");
             isEq = false;
             this.exceptionHandler.throwInvalidExpression();
         }
 
         while (matcherEquation.find()) {
             //check if there is no operator between numbers
-            System.out.println(matcherEquation.group());
-            if (count > 0 && !isContainingOperator(matcherEquation.group())) {
-                System.out.println("op");
+            if (count > 0 && !isExpressionValid(matcherEquation.group())) {
                 isEq = false;
-            } else if (matcherEquation.group().contains("*") && matcherEquation.group().contains("/")) {
-                System.out.println("cont");
-                isEq = false;
+                exceptionHandler.throwInvalidExpression();
             }
-
-            if (!isEq) exceptionHandler.throwInvalidExpression();
 
             count++;
         }
         return isEq;
+    }
+
+    // checks if divided input is correct example: (+++--23 or ***45 -> good), (/*54 or ++/* 90 -> wrong)
+    private boolean isExpressionValid(String input) {
+        Matcher matcher = Pattern.compile("[*/]").matcher(input);
+
+        if (!isContainingOperator(input))  return false;
+        else if (input.contains("*") && input.contains("/")) return false;
+        else if ((input.contains("+") || input.contains("-")) && matcher.find() && !input.contains("("))  return false;
+
+        return true;
     }
 
     public static boolean isContainingOperator(String input) {
@@ -61,6 +66,6 @@ public class InputValidator {
     }
 
     private boolean isEndingWrong(String input) {
-        return input.matches("(?i)[a-z0-9+\\- ]*[+\\-=!,.{}:\\\\ ]+");
+        return input.matches("(?i)[a-z0-9+\\- ]*[+\\-=!,.{}:\\\\*/ ]+");
     }
 }
