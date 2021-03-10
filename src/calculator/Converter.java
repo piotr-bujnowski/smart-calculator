@@ -148,7 +148,12 @@ public class Converter {
                 } else if (OperatorPrecedence.getPrecedence(stack.peekLast()) < getCurrentNumPrecedence) {
                     stack.offerLast(matched);
                 } else {
+                    // temporary - for closed parenthesis without open (
+                    if (!stack.contains("(") && matched.equals(")")) {
+                        exceptionHandler.throwInvalidExpression();
+                    }
                     int count = 0;
+
                     try {
                         while (OperatorPrecedence.getPrecedence(stack.peekLast()) >= getCurrentNumPrecedence && count < 2) {
                             if (stack.peekLast().equals("(")) stack.pollLast();
@@ -156,9 +161,9 @@ public class Converter {
 
                             if (stack.peekLast().equals("(")) count++;
                         }
-                    } catch (Exception e) {
-                        System.out.println("Exception!");
+                    } catch (Exception ignored) {
                     }
+
                     if (!matched.equals(")")) {
                         stack.offerLast(matched);
                     }

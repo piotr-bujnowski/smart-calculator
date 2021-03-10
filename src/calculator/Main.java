@@ -66,29 +66,35 @@ public class Main {
                             int eq = 0;
 
                             List<String> infixNotation = new ArrayList<>(converter.changeEquationIntoArray(input));
-                            List<String> infixConverted = new ArrayList<>(converter.changeVariablesToNumsInList(infixNotation));
-                            List<String> postfixNotation = new ArrayList<>(converter.convertToPostfixNotation(infixConverted.toString()));
+                            List<String> infixConvertedVariables = new ArrayList<>(converter.changeVariablesToNumsInList(infixNotation));
+                            List<String> postfixNotation = new ArrayList<>(converter.convertToPostfixNotation(infixConvertedVariables.toString()));
 
-                            System.out.println("Infix: " + infixNotation);
-
-                            System.out.print("Postfix: ");
-                            for (String s : postfixNotation) {
-                                System.out.print(s + " ");
-                            }
+                            // printing infix and postfix for info
+//                            System.out.println("Infix: " + infixNotation);
+//
+//                            System.out.print("Postfix: ");
+//                            for (String s : postfixNotation) {
+//                                System.out.print(s + " ");
+//                            }
+//                            System.out.println();
 
                             if (infixNotation.size() == 1) {
+
+                                if (input.replaceAll("\\s*", "").matches("(?i)[-+]*[0-9]+")) {
+                                    System.out.println(infixNotation.get(0));
+                                    continue;
+                                }
+
                                 if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
                                     System.out.println(variablesMap.get(input));
-                                } else if (!variablesMap.containsKey(input)) {
-                                    System.out.println("Unknown variable this");
                                 } else {
-                                    System.out.println(infixNotation.get(0));
+                                    System.out.println("Unknown variable this");
+                                    continue;
                                 }
                                 break;
                             }
 
                             try {
-                                System.out.println();
                                 equation = calculator.calculatePostfixExp(postfixNotation);
                                 System.out.println("Result: " + equation);
                             } catch (Exception e) {
