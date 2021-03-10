@@ -57,3 +57,22 @@ Program supports only natural numbers for this moment and [-, +, *, /] operator.
  /variables : print entered variables  
  /menu      : print menu  
  /exit      : exit program  
+ ```  
+>>/variables  
+a = -4  
+b = 5  
+c = 6  
+veryBig = 80000000000000000000000000000  
+  
+>>/menu  
+  
+--- Smart Calculator Program ---  
+ /help      : more information  
+ /variables : print entered variables  
+ /menu      : print menu  
+ /exit      : exit program  
+   
+ >>/exit  
+   
+ Bye  
+ ```  
