@@ -80,14 +80,15 @@ public class Main {
 //                            System.out.println();
 
                             if (infixNotation.size() == 1) {
+                                String inputNoSpaces = input.replaceAll("\\s*", "");
 
-                                if (input.replaceAll("\\s*", "").matches("(?i)[-+]*[0-9]+")) {
+                                if (inputNoSpaces.matches("(?i)[-+]*[0-9]+")) {
                                     System.out.println(infixNotation.get(0));
                                     continue;
                                 }
 
-                                if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
-                                    System.out.println(variablesMap.get(input));
+                                if (variablesMap.containsKey(inputNoSpaces) && inputNoSpaces.matches("(?i)[a-z]+")) {
+                                    System.out.println(variablesMap.get(inputNoSpaces));
                                 } else {
                                     System.out.println("Unknown variable this");
                                     continue;
