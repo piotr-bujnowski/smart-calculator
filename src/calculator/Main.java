@@ -41,9 +41,10 @@ public class Main {
                         if (inputValidator.isVariableSetUpFormat(input)) {
                             String[] variable = input.replaceAll("\\s*", "").split("=");
 
-                            String regEx = "(?i)[\\p{L}a-z]+\\d+|\\d+[\\p{L}a-z]|[^0-9a-z]+";
-                            Matcher matcherInvalidId = Pattern.compile(regEx).matcher(variable[0]);
-                            Matcher matcherInvalidAssignment = Pattern.compile(regEx).matcher(variable[1]);
+                            String regExInvalidId = "(?i)[\\p{L}a-z]+\\d+|\\d+[\\p{L}a-z]|[^0-9a-z]+";
+                            String regExInvalidAssignment = "(?i)[\\p{L}a-z]+\\d+|\\d+[\\p{L}a-z]|[^0-9a-z-]+";
+                            Matcher matcherInvalidId = Pattern.compile(regExInvalidId).matcher(variable[0]);
+                            Matcher matcherInvalidAssignment = Pattern.compile(regExInvalidAssignment).matcher(variable[1]);
 
                             if (matcherInvalidId.find()) {
                                 System.out.println("Invalid identifier");
@@ -54,7 +55,7 @@ public class Main {
                             } else {
                                 if (variablesMap.containsKey(variable[1])) {
                                     variablesMap.put(variable[0], variablesMap.get(variable[1]));
-                                } else if (variable[0].matches("(?i)[a-z]+ *") && variable[1].matches("[0-9]+ *")) {
+                                } else if (variable[0].matches("(?i)[a-z]+ *") && variable[1].matches("-?[0-9]+ *")) {
                                     variablesMap.put(variable[0], Integer.parseInt(variable[1]));
                                 } else {
                                     System.out.println("Unknown variable this");
@@ -96,7 +97,7 @@ public class Main {
 
                             try {
                                 equation = calculator.calculatePostfixExp(postfixNotation);
-                                System.out.println("Result: " + equation);
+                                System.out.println(equation);
                             } catch (Exception e) {
                                 System.out.println("Something went horribly wrong");
                             }
