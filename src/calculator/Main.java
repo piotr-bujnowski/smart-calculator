@@ -49,7 +49,7 @@ public class Main {
                             if (matcherInvalidId.find()) {
                                 System.out.println("Invalid identifier");
                                 continue;
-                            } else if (matcherInvalidAssignment.find()) {
+                            } else if (matcherInvalidAssignment.find() || variable.length > 2) {
                                 System.out.println("Invalid assignment");
                                 continue;
                             } else {
@@ -99,8 +99,7 @@ public class Main {
                             try {
                                 equation = calculator.calculatePostfixExp(postfixNotation);
                                 System.out.println(equation);
-                            } catch (Exception e) {
-                                System.out.println("Something went horribly wrong");
+                            } catch (Exception ignored) {
                             }
                         }
                     } catch (NumberFormatException e) {
