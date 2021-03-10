@@ -20,11 +20,14 @@ public class InputValidator {
         boolean isEq = true;
         String regEx = "[+\\-*/ ]*\\(*?[+\\-*/ ]*[0-9]+ *\\)*|" +
                 "[+\\-*/ ]*\\(*?[+\\-*/ ]*[a-zA-Z]+ *\\)*";
-
-//                "\\(?[*/ ]+[0-9]+ *\\)?|" +
-//                "\\(?[*/ ]+[a-zA-Z]+ *\\)?";
+        // regex for checking if there are chunks with more than one * or /
+        String regExMoreThanOne = "[*]{2,}|[/]{2,}";
 
         Matcher matcherEquation = Pattern.compile(regEx).matcher(input);
+        Matcher matcherMoreThanOne = Pattern.compile(regExMoreThanOne).matcher(input);
+
+        if (matcherMoreThanOne.find()) exceptionHandler.throwInvalidExpression();
+
         int count = 0;
 
         if (isEndingWrong(input)) {
