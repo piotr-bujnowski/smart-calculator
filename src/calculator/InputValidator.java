@@ -66,6 +66,7 @@ public class InputValidator {
     }
 
     private boolean isEndingWrong(String input) {
-        return input.matches("(?i)[a-z0-9+\\- ]*[+\\-=!,.{}:\\\\*/ ]+");
+//        Matcher matcher = Pattern.compile("[+\\-=!,.{}:\\\\*/ ]\\b").matcher(input);
+        return input.matches(".*[+\\-=!,.{}:\\\\*/ ]\\b");
     }
 }

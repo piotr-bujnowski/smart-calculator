@@ -112,11 +112,15 @@ public class Converter {
 
         for (String var : list) {
             for (String varFromMap : variablesMap.keySet()) {
-                if (var.replaceAll("-", "").equals(varFromMap)) {
+                if (var.replaceAll("[-+/*]", "").equals(varFromMap)) {
                     String value = Integer.toString(variablesMap.get(varFromMap));
 
                     if (var.contains("-")) {
                         list.set(list.indexOf(var), "-" + value);
+                    } else if (var.startsWith("*")) {
+                        list.set(list.indexOf(var), "*" + value);
+                    } else if (var.startsWith("/")) {
+                        list.set(list.indexOf(var), "/" + value);
                     } else {
                         list.set(list.indexOf(var), value);
                     }
@@ -130,7 +134,7 @@ public class Converter {
     public List<String> convertToPostfixNotation(String string) {
         List<String> infixList = new ArrayList<>();
         Deque<String> stack = new ArrayDeque<>();
-        Matcher matcher = Pattern.compile("[-+*/()]|[0-9]+").matcher(string);
+        Matcher matcher = Pattern.compile("[-+*/()]|[0-9]+|[a-zA-Z]+").matcher(string);
 
         while (matcher.find()) {
             String matched = matcher.group();
@@ -144,16 +148,19 @@ public class Converter {
                 } else if (OperatorPrecedence.getPrecedence(stack.peekLast()) < getCurrentNumPrecedence) {
                     stack.offerLast(matched);
                 } else {
+                    int count = 0;
                     try {
-                        int count = 0;
                         while (OperatorPrecedence.getPrecedence(stack.peekLast()) >= getCurrentNumPrecedence && count < 2) {
-                            infixList.add(stack.pollLast());
-                            if (stack.getLast().equals("(")) count++;
+                            if (stack.peekLast().equals("(")) stack.pollLast();
+                            else infixList.add(stack.pollLast());
+
+                            if (stack.peekLast().equals("(")) count++;
                         }
-                        if (!matched.equals(")")) {
-                            stack.offerLast(matched);
-                        }
-                    } catch (Exception ignored) {
+                    } catch (Exception e) {
+                        System.out.println("Exception!");
+                    }
+                    if (!matched.equals(")")) {
+                        stack.offerLast(matched);
                     }
                 }
 
@@ -167,8 +174,7 @@ public class Converter {
             infixList.add(stack.pollLast());
         }
 
-        String[] ss = {"(", ")"};
-        infixList.removeAll(Arrays.asList(ss));
+        if (infixList.contains("(")) exceptionHandler.throwInvalidExpression();
 
         return infixList;
     }

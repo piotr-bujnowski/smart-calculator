@@ -66,12 +66,15 @@ public class Main {
                             int eq = 0;
 
                             List<String> infixNotation = new ArrayList<>(converter.changeEquationIntoArray(input));
-                            List<String> postfixNotation =  new ArrayList<>(converter.convertToPostfixNotation(infixNotation.toString()));
+                            List<String> infixConverted = new ArrayList<>(converter.changeVariablesToNumsInList(infixNotation));
+                            List<String> postfixNotation = new ArrayList<>(converter.convertToPostfixNotation(infixConverted.toString()));
 
-                            System.out.println(infixNotation);
+                            System.out.println("Infix: " + infixNotation);
 
-                            List<String> converted = converter.changeVariablesToNumsInList(infixNotation);
-                            System.out.println(converted + "converted");
+                            System.out.print("Postfix: ");
+                            for (String s : postfixNotation) {
+                                System.out.print(s + " ");
+                            }
 
                             if (infixNotation.size() == 1) {
                                 if (variablesMap.containsKey(input) && input.matches("(?i)[a-z]+")) {
@@ -84,15 +87,13 @@ public class Main {
                                 break;
                             }
 
-
-                            for (String s : postfixNotation) {
-                                System.out.print(s + " ");
+                            try {
+                                System.out.println();
+                                equation = calculator.calculatePostfixExp(postfixNotation);
+                                System.out.println("Result: " + equation);
+                            } catch (Exception e) {
+                                System.out.println("Something went horribly wrong");
                             }
-                            System.out.println();
-                            equation = calculator.calculatePostfixExp(converted);
-                            System.out.println(equation);
-
-
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid expression");

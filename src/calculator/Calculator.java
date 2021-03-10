@@ -12,8 +12,6 @@ public class Calculator {
         int equation = 0;
 
         try {
-
-
             for (String s : list) {
                 if (isInteger(s)) {
                     stack.offerLast(Integer.parseInt(s));
@@ -35,7 +33,6 @@ public class Calculator {
                             case "/":
                                 equation = secondNum / firstNum;
                                 break;
-
                         }
 
                         stack.offerLast(equation);
@@ -48,7 +45,6 @@ public class Calculator {
         }
     }
 
-
     public boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -56,15 +52,5 @@ public class Calculator {
             return false;
         }
         return true;
-    }
-
-    public int addUpElemInArray(List<String> inputArr) {
-        int equation = 0;
-
-        for (String number : inputArr) {
-
-            equation += Integer.parseInt(number);
-        }
-        return equation;
     }
 }
