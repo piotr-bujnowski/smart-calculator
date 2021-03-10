@@ -17,8 +17,11 @@ public class Main {
 
         boolean exit = false;
 
+        Printer.printMenu();
+
         do {
             BigInteger equation = BigInteger.ZERO;
+            System.out.print("\n>>");
             String input = scanner.nextLine();
 
             switch (input) {
@@ -28,6 +31,18 @@ public class Main {
                     break;
                 case "/help":
                     Printer.printHelp();
+                    break;
+                case "/variables":
+                    if (!variablesMap.isEmpty()) {
+                        for (String var : variablesMap.keySet()) {
+                            System.out.println(var + " = " + variablesMap.get(var));
+                        }
+                    } else {
+                        Printer.noVariables();
+                    }
+                    break;
+                case "/menu":
+                    Printer.printMenu();
                     break;
                 case "":
                     continue;
@@ -64,7 +79,6 @@ public class Main {
                             }
 
                         } else if (inputValidator.isEquationFormat(input)) {
-                            String[] inputArr = input.replaceAll("\\s*", "").split("");
                             int eq = 0;
 
                             List<String> infixNotation = new ArrayList<>(converter.changeEquationIntoArray(input));
