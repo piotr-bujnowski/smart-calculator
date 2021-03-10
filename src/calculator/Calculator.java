@@ -1,5 +1,6 @@
 package calculator;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -7,31 +8,31 @@ import java.util.Map;
 
 public class Calculator {
 
-    public int calculatePostfixExp(List<String> list) throws Exception {
-        Deque<Integer> stack = new ArrayDeque<>();
-        int equation = 0;
+    public BigInteger calculatePostfixExp(List<String> list) throws Exception {
+        Deque<BigInteger> stack = new ArrayDeque<>();
+        BigInteger equation = null;
 
         try {
             for (String s : list) {
-                if (isInteger(s)) {
-                    stack.offerLast(Integer.parseInt(s));
+                if (isBigInteger(s)) {
+                    stack.offerLast(new BigInteger(s));
                 } else {
                     if (stack.size() >= 2) {
-                        int firstNum = stack.pollLast();
-                        int secondNum = stack.pollLast();
+                        BigInteger firstNum = new BigInteger(String.valueOf(stack.pollLast()));
+                        BigInteger secondNum = new BigInteger(String.valueOf(stack.pollLast()));
 
                         switch (s) {
                             case "+":
-                                equation = secondNum + firstNum;
+                                equation = (secondNum).add(firstNum);
                                 break;
                             case "-":
-                                equation = secondNum - firstNum;
+                                equation = (secondNum).subtract(firstNum);
                                 break;
                             case "*":
-                                equation = secondNum * firstNum;
+                                equation = (secondNum).multiply(firstNum);
                                 break;
                             case "/":
-                                equation = secondNum / firstNum;
+                                equation = (secondNum).divide(firstNum);
                                 break;
                         }
 
@@ -45,9 +46,9 @@ public class Calculator {
         }
     }
 
-    public boolean isInteger(String s) {
+    public boolean isBigInteger(String s) {
         try {
-            Integer.parseInt(s);
+            new BigInteger(s);
         } catch (NumberFormatException e) {
             return false;
         }

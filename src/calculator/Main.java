@@ -1,5 +1,6 @@
 package calculator;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         InputValidator inputValidator = new InputValidator(new ExceptionHandler());
-        Map<String, Integer> variablesMap = new HashMap<>();
+        Map<String, BigInteger> variablesMap = new HashMap<>();
         Converter converter = new Converter(new ExceptionHandler(), variablesMap);
         Calculator calculator = new Calculator();
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +18,7 @@ public class Main {
         boolean exit = false;
 
         do {
-            int equation = 0;
+            BigInteger equation = BigInteger.ZERO;
             String input = scanner.nextLine();
 
             switch (input) {
@@ -56,7 +57,7 @@ public class Main {
                                 if (variablesMap.containsKey(variable[1])) {
                                     variablesMap.put(variable[0], variablesMap.get(variable[1]));
                                 } else if (variable[0].matches("(?i)[a-z]+ *") && variable[1].matches("-?[0-9]+ *")) {
-                                    variablesMap.put(variable[0], Integer.parseInt(variable[1]));
+                                    variablesMap.put(variable[0], new BigInteger(variable[1]));
                                 } else {
                                     System.out.println("Unknown variable this");
                                 }

@@ -1,5 +1,6 @@
 package calculator;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,9 +8,9 @@ import java.util.regex.Pattern;
 public class Converter {
 
     private final ExceptionHandler exceptionHandler;
-    private Map<String, Integer> variablesMap;
+    private Map<String, BigInteger> variablesMap;
 
-    public Converter(ExceptionHandler exceptionHandler, Map<String, Integer> variablesMap) {
+    public Converter(ExceptionHandler exceptionHandler, Map<String, BigInteger> variablesMap) {
         this.exceptionHandler = exceptionHandler;
         this.variablesMap = variablesMap;
     }
@@ -113,7 +114,7 @@ public class Converter {
         for (String var : list) {
             for (String varFromMap : variablesMap.keySet()) {
                 if (var.replaceAll("[-+/*]", "").equals(varFromMap)) {
-                    String value = Integer.toString(variablesMap.get(varFromMap));
+                    String value = variablesMap.get(varFromMap).toString();
 
                     if (var.contains("-")) {
                         list.set(list.indexOf(var), "-" + value);
@@ -122,7 +123,7 @@ public class Converter {
                     } else if (var.startsWith("/")) {
                         list.set(list.indexOf(var), "/" + value);
                     } else {
-                        list.set(list.indexOf(var), value);
+                        list.set(list.indexOf(var), "+" + value);
                     }
                 }
             }
