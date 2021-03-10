@@ -3,8 +3,7 @@ package calculator;
 public class Printer {
 
     public static void printHelp() {
-        System.out.println("\nProgram supports only natural numbers for this moment\n" +
-                " and [-, +, *, /] operators\n" +
+        System.out.println("\nProgram supports only natural numbers for this moment and [-, +, *, /] operator.\n" +
                 " --- Input / Output examples: ---\n" +
                 " 3 + 8 * ((4 + 3) * 2 + 1) - 6 / (2 + 1)\n" +
                 " 121\n\n" +
@@ -49,8 +48,8 @@ public class Printer {
 
     public static void noVariables() {
         System.out.println("\nNo variables have been entered yet\n" +
-                " Please enter variables in this format first:\n" +
-                " n=13");
+                "Please enter variables in this format first:\n" +
+                "n=13");
     }
 
     public static void printBye() {

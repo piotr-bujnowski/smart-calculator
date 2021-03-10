@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         InputValidator inputValidator = new InputValidator(new ExceptionHandler());
         Map<String, BigInteger> variablesMap = new HashMap<>();
@@ -105,17 +105,15 @@ public class Main {
                                 if (variablesMap.containsKey(inputNoSpaces) && inputNoSpaces.matches("(?i)[a-z]+")) {
                                     System.out.println(variablesMap.get(inputNoSpaces));
                                 } else {
-                                    System.out.println("Unknown variable this");
+                                    System.out.println("Unknown variable");
                                     continue;
                                 }
                                 break;
                             }
 
-                            try {
-                                equation = calculator.calculatePostfixExp(postfixNotation);
-                                System.out.println(equation);
-                            } catch (Exception ignored) {
-                            }
+                            equation = calculator.calculatePostfixExp(postfixNotation);
+                            if (equation == null) throw new NumberFormatException();
+                            System.out.println(equation);
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid expression");
