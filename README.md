@@ -3,6 +3,8 @@
 *   [Input / Output examples](#input--output-examples)  
 *   [Commands](#commands)  
   
+[Smart Calculator DOWNLOAD](https://github.com/piotr-bujnowski/smart-calculator/releases/tag/v0.1-alpha)
+  
 ## Input / Output examples
 Program supports only natural numbers for this moment and [-, +, *, /] operator.
  
